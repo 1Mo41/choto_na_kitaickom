@@ -1,0 +1,16 @@
+{% extends "layout/basic.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <p>Вы уже выполнили вход.</p>
+{% else %}
+     <form method="post">
+           {% csrf_token %}
+           {% bootstrap_form form layout='horizontal' %}
+           <input type="hidden" name="next" value="{{ next }}">
+           {% buttons submit='Войти' %} {% endbuttons %}
+       </form>
+{% endif %}
+{% endblock %}
