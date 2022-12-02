@@ -1,4 +1,3 @@
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -22,7 +21,6 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return Question.objects.order_by('-pub_date')
-
 
 
 class DetailView(generic.DetailView):
@@ -61,9 +59,6 @@ class LoginView(LoginView):
     success_url = reverse_lazy('polls/index')
 
 
-
-
-
 class BBLogoutView(LoginRequiredMixin, LogoutView):
     template_name = 'main/logout.html'
 
@@ -79,4 +74,3 @@ class RegisterDoneView(TemplateView):
 @login_required
 def profile(request):
     return render(request, 'main/profile.html')
-

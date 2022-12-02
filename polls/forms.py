@@ -30,7 +30,7 @@ class RegisterUserForm(forms.ModelForm):
                                 error_messages={
                                     'required': 'Обязательное поле',
                                 })
-    photo = forms.ImageField(label='Фото')
+    photo = forms.ImageField(label='Фото',required=False)
 
     def clean(self):
         super().clean()
