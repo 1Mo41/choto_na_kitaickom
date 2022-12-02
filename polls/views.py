@@ -1,13 +1,16 @@
+
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import CreateView
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.views.generic import CreateView, DeleteView, TemplateView
 from django.shortcuts import render, redirect
 
 from .forms import RegisterUserForm
-from .models import Question, Choice
-from django.template import loader
+from .models import Question, Choice, AbsUser
+from django.template import loader, TemplateDoesNotExist
 from django.urls import reverse
 from django.views import generic
 from django.urls import reverse_lazy
@@ -19,6 +22,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return Question.objects.order_by('-pub_date')
+
 
 
 class DetailView(generic.DetailView):
@@ -57,7 +61,22 @@ class LoginView(LoginView):
     success_url = reverse_lazy('polls/index')
 
 
-# @login_required
-# def profile(request):
-#     request_items = request.user.request_set.order_by('-date').all()
-#     return render(request, 'main/profile.html', context={'request_items': request_items})
+
+
+
+class BBLogoutView(LoginRequiredMixin, LogoutView):
+    template_name = 'main/logout.html'
+
+
+class BBLoginView(LoginView):
+    template_name = 'main/login.html'
+
+
+class RegisterDoneView(TemplateView):
+    template_name = 'main/register_done.html'
+
+
+@login_required
+def profile(request):
+    return render(request, 'main/profile.html')
+

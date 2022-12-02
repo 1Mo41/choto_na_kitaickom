@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView, LoginView
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.forms import TextInput
@@ -50,3 +52,5 @@ class RegisterUserForm(forms.ModelForm):
         model = AbsUser
         fields = ('last_name', 'first_name', 'username', 'password', 'password2', 'photo')
         enctype = "multipart/form-data"
+
+
